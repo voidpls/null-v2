@@ -53,7 +53,7 @@ bot.on('message', async msg => {
     }
     // DEV COMMAND HANDLER
     cmdFile = bot.devCommands.get(cmd)
-    if (cmdFile && msg.author.id === OWNER) return cmdFile.run(bot, msg, arg, staticPrefix)
+    if (cmdFile && msg.author.id === OWNER) return cmdFile.run(bot, msg, args, staticPrefix)
 })
 
 
