@@ -61,7 +61,7 @@ async function getForecast(coords) {
                 .unix(daily.sunsetTime)
                 .tz(forecast.timezone)
                 .format('**h:mm** a'),
-            humidity: ~~(currently.humidity * 10000) / 100,
+            humidity: ~~(currently.humidity * 100),
             precip: ~~(daily.precipProbability * 100),
             summary: hourly.summary,
             condition: currently.summary,
