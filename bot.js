@@ -22,7 +22,7 @@ bot.on('ready', async () => {
     const usercount = bot.guilds.cache.map(g => g.memberCount).reduce((g1, g2) => g1 + g2)
     console.log(`DISCORD: Bot is serving ${usercount} members`)
     console.log(`DISCORD: Bot is serving ${bot.guilds.cache.size} guilds`)
-    // bot.user.setPresence({ activity: { name: 'you type', type: 'WATCHING' }})
+    bot.user.setPresence({ activity: { name: 'Undergoing V2 Rewrite', type: 'PLAYING' }})
 })
 
 bot.on('message', async msg => {
