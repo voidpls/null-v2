@@ -9,6 +9,7 @@
   "author": "Void",
   "license": "ISC",
   "dependencies": {
+    "@vitalets/google-translate-api": "^3.0.0",
     "axios": "^0.19.2",
     "discord.js": "^12.2.0",
     "dotenv": "^8.2.0",
