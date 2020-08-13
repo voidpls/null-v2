@@ -24,7 +24,7 @@ bot.on('ready', async () => {
     console.log(`DISCORD: Bot is serving ${bot.guilds.cache.size} guilds`)
     setInterval(() => {
         bot.user.setPresence({ activity: { name: 'Undergoing V2 Rewrite', type: 'PLAYING' }})
-    },60000)
+    }, 60000)
 })
 
 bot.on('message', async msg => {
@@ -43,8 +43,6 @@ bot.on('message', async msg => {
     const cmd = content
         .split(' ')[0]
         .toLowerCase()
-
-    console.log(prefix, args, cmd)
 
     // COMMAND HANDLER
     let cmdFile = bot.commands.get(cmd)
