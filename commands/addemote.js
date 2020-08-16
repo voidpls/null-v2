@@ -55,7 +55,7 @@ async function getMetadata(buffer) {
 
 async function addEmoji(buffer, metadata, name, msg) {
     return msg.guild.emojis.create(buffer, name, {reason: `Added By: ${msg.author.username}#${msg.author.discriminator}`})
-        .then(e => msg.channel.send(`**Success:** Emoji \`:${e.name}:\` created [${e.toString()}]`))
+        .then(e => msg.channel.send(`**Success:** Emote **\`:${e.name}:\`** created [${e.toString()}]`))
         .catch(e => msg.channel.send(`**Error:** ${e.message}`))
 }
 
