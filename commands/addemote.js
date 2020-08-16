@@ -80,41 +80,39 @@ async function shrinkEmoji(buffer, metadata, name, msg) {
 
 async function shrinkStatic(buffer, metadata, m, mArray) {
     const longestDim = metadata.w > metadata.h ? metadata.w : metadata.h
-
     if (longestDim > 384) {
         try {
             if (metadata.w > metadata.h)
                 buffer = await resize(buffer, metadata, 256, null, m, mArray)
             else
                 buffer = await resize(buffer, metadata, null, 256, m, mArray)
-
-        } catch (e) {
-            return m.channel.send(`**Error:** ${e.message}`)
-        }
+        } catch (e) { return m.channel.send(`**Error:** ${e.message}`) }
     }
     if (buffer.length < EMOJI_MAX_SIZE) return buffer
     try {
         buffer = await compress(buffer, m, mArray, IMAGEMIN_FUNCTIONS[metadata.mime])
         mArray.push(`Compressed: \`${~~(buffer.length / 1024)}KB\``)
         await m.edit(mArray.join('\n'))
-    } catch (e) {
-        return m.channel.send(`**Error:** ${e.message}`)
-    }
+    } catch (e) { return m.channel.send(`**Error:** ${e.message}`) }
     return buffer
 }
 
 async function shrinkGif(buffer, metadata, m, mArray) {
     let nBuffer = Buffer.from(buffer)
     const longestDim = metadata.w > metadata.h ? metadata.w : metadata.h
-    if (longestDim >= 196)
-        buffer = await resizeGif(buffer, metadata, 128, m, mArray)
+    try {
+        if (longestDim >= 196)
+            buffer = await resizeGif(buffer, metadata, 128, m, mArray)
+    } catch (e) { return m.channel.send(`**Error:** ${e.message}`) }
     if (buffer.length < EMOJI_MAX_SIZE) return buffer
-
     // part 2
-    if (longestDim >= 96) {
-        nBuffer = await resizeGif(nBuffer, metadata, 64, m, mArray)
-        return nBuffer
-    } else return await resizeGif(nBuffer, metadata, longestDim, m, mArray)
+    try {
+        if (longestDim >= 96)
+            nBuffer = await resizeGif(nBuffer, metadata, 64, m, mArray)
+        else
+            nBuffer = await resizeGif(nBuffer, metadata, longestDim, m, mArray)
+    } catch (e) { return m.channel.send(`**Error:** ${e.message}`) }
+    return nBuffer
 }
 
 async function resize(buffer, metadata, w, h, m, mArray) {
