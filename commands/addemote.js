@@ -126,10 +126,10 @@ async function resize(buffer, metadata, w, h, m, mArray) {
 async function resizeGif(buffer, metadata, longest, m, mArray) {
     if (metadata.w > metadata.h)
         buffer = await compress(buffer, m, mArray,
-            IMAGEMIN_FUNCTIONS[metadata.mime]({optimizationLevel: 2, lossy: 35, resize: `${longest}x_`}))
+            IMAGEMIN_FUNCTIONS[metadata.mime]({optimizationLevel: 2, lossy: 30, resize: `${longest}x_`}))
     else
         buffer = await compress(buffer, m, mArray,
-            IMAGEMIN_FUNCTIONS[metadata.mime]({optimizationLevel: 2, lossy: 35, resize: `_x${longest}`}))
+            IMAGEMIN_FUNCTIONS[metadata.mime]({optimizationLevel: 2, lossy: 30, resize: `_x${longest}`}))
     const longestDim = metadata.w > metadata.h ? metadata.w : metadata.h
     if (longest !== longestDim) mArray.push(`Resized to \`${longest}px\`: **\`${~~(buffer.length / 1024)}KB\`**`)
     else mArray.push(`Compressed: **\`${~~(buffer.length / 1024)}KB\`**`)
