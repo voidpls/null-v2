@@ -180,9 +180,9 @@ exports.run = async (bot, msg, args, prefix) => {
 }
 
 exports.help = {
-    name: 'addemote',
+    name: 'AddEmote',
     desc: 'Automatically shrinks and adds an emote to the server',
-    usage: 'addemote [url/image/emote]',
+    usage: 'addemote [name] [url/image/emote]',
     category: 'Moderation',
     aliases: ['addemoji']
 }
