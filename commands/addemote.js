@@ -91,7 +91,7 @@ async function shrinkStatic(buffer, metadata, m, mArray) {
     if (buffer.length < EMOJI_MAX_SIZE) return buffer
     try {
         buffer = await compress(buffer, m, mArray, IMAGEMIN_FUNCTIONS[metadata.mime])
-        mArray.push(`Compressed: \`${~~(buffer.length / 1024)}KB\``)
+        mArray.push(`Compressed: **\`${~~(buffer.length / 1024)}KB\`**`)
         await m.edit(mArray.join('\n'))
     } catch (e) { return m.channel.send(`**Error:** ${e.message}`) }
     return buffer
@@ -119,7 +119,7 @@ async function resize(buffer, metadata, w, h, m, mArray) {
     let image = await Jimp.read(buffer)
     image = await image.resize(w || Jimp.AUTO, h || Jimp.AUTO)
     buffer = await image.getBufferAsync(metadata.mime)
-    mArray.push(`Resized to \`${w || h}px\`: \`${~~(buffer.length / 1024)}KB\``)
+    mArray.push(`Resized to \`${w || h}px\`: **\`${~~(buffer.length / 1024)}KB\`**`)
     await m.edit(mArray.join('\n'))
     return buffer
 }
@@ -132,8 +132,8 @@ async function resizeGif(buffer, metadata, longest, m, mArray) {
         buffer = await compress(buffer, m, mArray,
             IMAGEMIN_FUNCTIONS[metadata.mime]({optimizationLevel: 2, lossy: 35, resize: `_x${longest}`}))
     const longestDim = metadata.w > metadata.h ? metadata.w : metadata.h
-    if (longest !== longestDim) mArray.push(`Resized to \`${longest}px\`: \`${~~(buffer.length / 1024)}KB\``)
-    else mArray.push(`Compressed: \`${~~(buffer.length / 1024)}KB\``)
+    if (longest !== longestDim) mArray.push(`Resized to \`${longest}px\`: **\`${~~(buffer.length / 1024)}KB\`**`)
+    else mArray.push(`Compressed: **\`${~~(buffer.length / 1024)}KB\`**`)
     await m.edit(mArray.join('\n'))
     return buffer
 }
