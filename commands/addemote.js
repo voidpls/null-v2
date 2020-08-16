@@ -60,8 +60,7 @@ async function addEmoji(buffer, metadata, name, msg) {
 }
 
 async function shrinkEmoji(buffer, metadata, name, msg) {
-    const humanSize = `${~~(metadata.size/1024)}KB`
-    let mArray = ['<a:loading:744448275914162206> **Shrinking:**', `Original size: \`${humanSize}\``]
+    let mArray = ['<a:loading:744448275914162206> **Shrinking:**', `Original size: **\`${~~(metadata.size/1024)}KB\`**`]
     let m = await msg.channel.send(mArray.join('\n'))
     let shrunk;
     if (['image/jpeg', 'image/png'].includes(metadata.mime))
@@ -69,11 +68,11 @@ async function shrinkEmoji(buffer, metadata, name, msg) {
     if (['image/gif'].includes(metadata.mime))
         shrunk = await shrinkGif(buffer, metadata, m, mArray)
     if (shrunk && shrunk.length < EMOJI_MAX_SIZE) {
-        mArray[0] = '**Success:** Image shrunk to `<256KB`'
+        mArray[0] = '**Success:** Image shrunk to **`<256KB`**'
         m.edit(mArray.join('\n'))
         addEmoji(shrunk, metadata, name, msg)
     } else {
-        mArray[0] = '**Error:** Failed to shrink image to `<256KB`'
+        mArray[0] = '**Error:** Failed to shrink image to **`<256KB`**'
         return m.edit(mArray.join('\n'))
     }
 }
