@@ -10,11 +10,17 @@
   "license": "ISC",
   "dependencies": {
     "@vitalets/google-translate-api": "^3.0.0",
+    "@xanderfrangos/imagemin-gifsicle": "^7.0.0-b",
     "axios": "^0.19.2",
     "discord.js": "^12.2.0",
     "dotenv": "^8.2.0",
+    "imagemin": "^7.0.1",
+    "imagemin-mozjpeg": "^9.0.0",
+    "imagemin-pngquant": "^9.0.0",
+    "jimp": "^0.16.0",
     "moment": "^2.27.0",
     "moment-timezone": "^0.5.31",
-    "mongoose": "^5.9.28"
+    "mongoose": "^5.9.28",
+    "probe-image-size": "^5.0.0"
   }
 }
