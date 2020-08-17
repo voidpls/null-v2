@@ -1,6 +1,7 @@
 const { MessageEmbed, Collection } = require('discord.js')
 const { image_search } = require('duckduckgo-images-api')
-const { COLOR } = process.env
+const { COLOR, BLACKLISTED_TERMS } = process.env
+const blacklisted = BLACKLISTED_TERMS.split(',')
 const collectors = new Collection()
 
 async function collectMessage(msg, embedMsg, pageInd, totalPages, res, filter) {
@@ -51,7 +52,6 @@ async function getEmbed(pageInd, totalPages, res) {
     const page = res[pageInd]
     const title = page.title.length >= 43 ? page.title.slice(0, 39) + '...' : page.title
     const image = page.image.match(/\.gif(\?.+)?$/i) ? page.image : page.thumbnail
-
     return new MessageEmbed()
         .setColor(COLOR)
         .setDescription(`Use \`(n)ext\`, \`(b)ack\`, and \`(e)xit\` to navigate`)
@@ -63,10 +63,11 @@ async function getEmbed(pageInd, totalPages, res) {
 exports.run = async (bot, msg, args, prefix) => {
     if (!args[0])
         return msg.channel.send('**Error:** Please specify a search query')
-
+    const isBlacklist = blacklisted.some(bl => msg.content.toLowerCase().includes(bl))
+    if (isBlacklist) return msg.channel.send(`**Error:** No results found`)
     const q = {
         query: args.join(' '),
-        moderate : true, //!msg.channel.nsfw,
+        moderate: true, //!msg.channel.nsfw,
         iterations : 1,
         retries : 3
     }
