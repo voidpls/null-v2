@@ -16,6 +16,7 @@ const bot = new Client({
 
 bot.commands = new Collection()
 bot.devCommands = new Collection()
+bot.collectors = new Collection()
 
 bot.on('ready', async () => {
     console.log(`DISCORD: Logged in as ${bot.user.username}`)

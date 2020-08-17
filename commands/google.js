@@ -5,7 +5,7 @@ google.resultsPerPage = 10
 
 exports.run = async (bot, msg, args, prefix) => {
     if (!args[0])
-        return msg.channel.send('**Error:** Please specify a search query!')
+        return msg.channel.send('**Error:** Please specify a search query')
 
     const query = args.join(' ')
 
