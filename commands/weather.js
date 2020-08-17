@@ -6,12 +6,6 @@ const moment = require('moment-timezone')
 const mongoose = require('mongoose')
 const Weather = mongoose.model('Weather')
 
-// async function lookup(loc) {
-//     const coords = await geocode(loc)
-//     if (!coords) return null
-//     return await getForecast(coords)
-// }
-
 async function geocode(loc) {
     const geocodeQ = `https://maps.googleapis.com/maps/api/geocode/json?key=${GEOCODE_KEY}&address=${loc}`
     const res = await axios.get(geocodeQ)
@@ -75,7 +69,6 @@ function toC(f) {
 }
 
 async function weatherEmbed(coords, forecast, channel) {
-    console.log(forecast)
     const embed = new MessageEmbed()
         .setAuthor(coords.formatted, 'https://darksky.net/images/darkskylogo.png')
         .setDescription(forecast.summary)
