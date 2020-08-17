@@ -66,7 +66,7 @@ exports.run = async (bot, msg, args, prefix) => {
 
     const q = {
         query: args.join(' '),
-        moderate : !msg.channel.nsfw,
+        moderate : true, //!msg.channel.nsfw,
         iterations : 1,
         retries : 3
     }
