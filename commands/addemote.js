@@ -8,11 +8,12 @@ const imagemin_gif = require('@xanderfrangos/imagemin-gifsicle')
 const { ATTACH_REGEX, EMOTE_REGEX } = process.env
 const attachRegex = new RegExp(ATTACH_REGEX)
 const emoteRegex = new RegExp(EMOTE_REGEX)
-const MAX_SIZE = 25*1024*1024
-const EMOJI_MAX_SIZE = 256*1024
+const MAX_PIXELS = 25*1000000 // MAX RESOLUTION IN PIXELS
+const MAX_SIZE = 30*1024*1024 // MAX SIZE IN BYTES
+const EMOJI_MAX_SIZE = 256*1024 // MAX DISCORD EMOJI SIZE IN BYTES
 const IMAGEMIN_FUNCTIONS = {
     'image/png': imagemin_png({speed:6}),
-    'image/jpeg': imagemin_jpeg({quality: 75, maxMemory: 512*1024}),
+    'image/jpeg': imagemin_jpeg({quality: 80, maxMemory: 100*1024}),
     'image/gif': imagemin_gif
 }
 
@@ -155,10 +156,14 @@ exports.run = async (bot, msg, args, prefix) => {
         return msg.channel.send(`**Error:** No valid image/emote provided\n\nUsage: \`${prefix}addemote [name] [url/image/emote]\``)
     const maxSize = ~~(MAX_SIZE/1024/1024)
     const image = await getImage(url)
-    if (!image) return msg.channel.send(`**Error:** Image failed to download or exceeds \`${maxSize}MB\` size limit`)
+    if (!image)
+        return msg.channel.send(`**Error:** Image failed to download or exceeds \`${maxSize}MB\` size limit`)
 
     const metadata = await getMetadata(image)
-    if (metadata.size < EMOJI_MAX_SIZE) return addEmoji(image, metadata, name, msg)
+    if (metadata.size < EMOJI_MAX_SIZE)
+        return addEmoji(image, metadata, name, msg)
+    if (metadata.w*metadata.h > MAX_PIXELS)
+        return msg.channel.send(`**Error:** Image exceeds \`${~~(MAX_PIXELS/1000000)}MP\` resolution limit`)
 
     const filter = m => m.author.id === msg.author.id
     const askM = await msg.channel.send(`**Image Too Large:** Would you like me to shrink it?\n\n\`Y/N\``)
