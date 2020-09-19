@@ -19,9 +19,10 @@ const IMAGEMIN_FUNCTIONS = {
 
 async function getEmoji(msg, args) {
     let image
+    if (args.length < 1) return
     if (msg.attachments.size !== 0 && msg.attachments.first().url.match(attachRegex))
         image = msg.attachments.first().url
-    else if (args.length < 2) return
+    else if (args.length < 2) return 
     else if (args[1].match(attachRegex))
         image = args[1]
     else if (args[1].match(emoteRegex)) {
