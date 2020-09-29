@@ -98,7 +98,7 @@ exports.run = async (bot, msg, args, prefix) => {
         return weatherEmbed(userloc.location, forecast, msg.channel)
     }
     if (args[0].match(userRegex)) {
-        const userID = args[0].match(userRegex)[1]
+        const userID = args[0].match(userRegex)[2]
         const userloc = await Weather.findOne({ userID: userID })
             .catch(e => console.log(e))
         if (!userloc) return msg.channel.send(`User does not have a location set`)

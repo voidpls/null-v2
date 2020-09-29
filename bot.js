@@ -4,6 +4,7 @@ const { Client, Collection } = require('discord.js')
 const mongoose = require('mongoose')
 const mongoHandler = require('./db/mongoHandler.js')
 const Prefix = mongoose.model('Prefix')
+const Blacklist = mongoose.model('Blacklist')
 const fs = require('fs')
 const util = require('util')
 const readdir = util.promisify(fs.readdir)
@@ -30,6 +31,8 @@ bot.on('ready', async () => {
 
 bot.on('message', async msg => {
     if (msg.author.id === bot.user.id || msg.author.bot || msg.channel.type !== 'text') return
+    const blGuild = await Blacklist.findById(msg.guild.id)
+    if (blGuild && blGuild.users.indexOf(msg.author.id) > -1) return
     const regStr = `^<@!?${bot.user.id}> `
     const regex = new RegExp(regStr)
     const guildPrefix = await Prefix.findById(msg.guild.id)
