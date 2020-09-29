@@ -12,9 +12,10 @@ exports.run = async (bot, msg, args, prefix) => {
     if (!memberID)
         return msg.channel.send(`**Error:** Member \`${args[0]}\` not found`)
     const targetMember = await msg.guild.members.fetch(memberID[2]).catch(e => {})
+    const guildMember = await msg.member.fetch()
     if (!targetMember) return msg.channel.send(`**Error:** Member \`${args[0]}\` not found`)
     if (msg.author.id === targetMember.id ||
-            targetMember.roles.highest.position >= msg.member.roles.highest.position)
+            targetMember.roles.highest.position >= guildMember.roles.highest.position)
         return msg.channel.send(`**Error:** That user has a higher role than you`)
 
     let dbGuild = await Blacklist.findById(msg.guild.id)
