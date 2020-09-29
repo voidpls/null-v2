@@ -11,8 +11,8 @@ exports.run = async (bot, msg, args, prefix) => {
     const memberID = args[0].match(userRegex) || null
     if (!memberID)
         return msg.channel.send(`**Error:** Member \`${args[0]}\` not found`)
-    const targetMember = await msg.guild.members.fetch({user: memberID[2], force: true}).catch(e => {})
-    const guildMember = await msg.member.fetch({user: msg.author.id, force: true})
+    const targetMember = await msg.guild.members.fetch(memberID[2]).catch(e => {})
+    const guildMember = await msg.guild.members.fetch(msg.author.id)
     if (!targetMember) return msg.channel.send(`**Error:** Member \`${args[0]}\` not found`)
     if (msg.author.id === targetMember.id ||
             targetMember.roles.highest.position >= guildMember.roles.highest.position)
