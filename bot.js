@@ -39,6 +39,8 @@ bot.on('message', async msg => {
     const prefix = msg.content.match(regex) ? msg.content.match(regex)[0] : (guildPrefix ? guildPrefix.prefix : PREFIX)
     const staticPrefix = guildPrefix ? guildPrefix.prefix : PREFIX
     if (!msg.content.startsWith(prefix)) return
+    // check for quote
+    if (prefix === '>' && msg.content.charAt(1) === ' ') return
 
     const content = msg.content.slice(prefix.length).trim()
     const args = content
