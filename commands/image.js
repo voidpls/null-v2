@@ -61,6 +61,7 @@ async function getEmbed(pageInd, totalPages, res) {
 }
 
 exports.run = async (bot, msg, args, prefix) => {
+    if (!msg.member.permissionsIn(msg.channel).has('ATTACH_FILES')) return;
     if (!args[0])
         return msg.channel.send('**Error:** Please specify a search query')
     const isBlacklist = blacklisted.some(bl => msg.content.toLowerCase().includes(bl))
