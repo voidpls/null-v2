@@ -22,7 +22,7 @@ async function getEmoji(msg, args) {
     if (args.length < 1) return
     if (msg.attachments.size !== 0 && msg.attachments.first().url.match(attachRegex))
         image = msg.attachments.first().url
-    else if (args.length < 2) return 
+    else if (args.length < 2) return
     else if (args[1].match(attachRegex))
         image = args[1]
     else if (args[1].match(emoteRegex)) {
@@ -81,12 +81,12 @@ async function shrinkEmoji(buffer, metadata, name, msg) {
 
 async function shrinkStatic(buffer, metadata, m, mArray) {
     const longestDim = metadata.w > metadata.h ? metadata.w : metadata.h
-    if (longestDim > 384) {
+    if (longestDim > 192) {
         try {
             if (metadata.w > metadata.h)
-                buffer = await resize(buffer, metadata, 256, null, m, mArray)
+                buffer = await resize(buffer, metadata, 128, null, m, mArray)
             else
-                buffer = await resize(buffer, metadata, null, 256, m, mArray)
+                buffer = await resize(buffer, metadata, null, 128, m, mArray)
         } catch (e) { return m.channel.send(`**Error:** ${e.message}`) }
     }
     if (buffer.length < EMOJI_MAX_SIZE) return buffer
@@ -102,7 +102,7 @@ async function shrinkGif(buffer, metadata, m, mArray) {
     let nBuffer = Buffer.from(buffer)
     const longestDim = metadata.w > metadata.h ? metadata.w : metadata.h
     try {
-        if (longestDim >= 196)
+        if (longestDim >= 192)
             buffer = await resizeGif(buffer, metadata, 128, m, mArray)
     } catch (e) { return m.channel.send(`**Error:** ${e.message}`) }
     if (buffer.length < EMOJI_MAX_SIZE) return buffer
