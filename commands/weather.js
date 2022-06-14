@@ -24,7 +24,7 @@ const Weather = mongoose.model('WeatherVC')
 async function getForecast(loc) {
     // const weatherQ = `https://api.darksky.net/forecast/${DARKSKY_KEY}/${coords.lat},${coords.long}?exclude=[minutely,alerts,flags]`
     const weatherQ = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${loc}?`+
-      `include=days,current&key=${VISUALCROSSING_KEY}&unitGroup=us&contentType=json`
+      `include=days,current,alerts&key=${VISUALCROSSING_KEY}&unitGroup=us&contentType=json`
     try {
       const res = await axios.get(weatherQ)
       const forecast = res.data
@@ -66,7 +66,8 @@ async function getForecast(loc) {
             precip: parseInt(daily.precipprob),
             summary: daily.description,
             condition: currently.conditions,
-            icon: currently.icon
+            icon: currently.icon,
+            alerts: forecast.alerts.map(a => {return {event: a.event, link: a.link}})
         }
     } catch (e) {
       return null
@@ -82,7 +83,6 @@ async function weatherEmbed(forecast, channel, givenLoc) {
   if (!forecast) return channel.send(`**Error:** Failed to retreive weather data for \`${givenLoc}\`. Invalid location?`)
     const embed = new MessageEmbed()
         .setAuthor(forecast.resolvedLoc, 'https://darksky.net/images/darkskylogo.png')
-        .setDescription(forecast.summary)
         .setThumbnail(`https://voidpls.github.io/null/darksky/${forecast.icon}.png`)
         .setColor(COLOR)
         .setFooter(`Local Time • ${forecast.localTime}`)
@@ -98,6 +98,13 @@ async function weatherEmbed(forecast, channel, givenLoc) {
         .addField('Humidity', `<:humidity:741861020024307722> **${forecast.humidity}**%`, true)
         .addField('Precipitation', `<:umbrella:741861780841693184> **${forecast.precip}**% chance`, true)
         .addField('Sunrise/Sunset', `${forecast.sunrise} | ${forecast.sunset}`, true)
+    if (forecast.alerts.length > 0) {
+      const desc = '<:warning:986192938226810900> **Alerts** <:warning:986192938226810900>\n' +
+       forecast.alerts.map(a => `[${a.event}](${a.link})`).join('\n') +
+       `\n\n${forecast.summary}`
+      embed.setDescription(desc)
+    } else embed.setDescription(forecast.summary)
+
     channel.send(embed).catch(e => msg.channel.send(`**Error:** ${e}`))
 }
 
