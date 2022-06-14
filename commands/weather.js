@@ -100,7 +100,7 @@ async function weatherEmbed(forecast, channel, givenLoc) {
         .addField('Sunrise/Sunset', `${forecast.sunrise} | ${forecast.sunset}`, true)
     if (forecast.alerts.length > 0) {
       const desc = '<:warning:986192938226810900> **Alerts** <:warning:986192938226810900>\n' +
-       forecast.alerts.map(a => `[${a.event}](${a.link})`).join('\n') +
+       forecast.alerts.map(a => `**[${a.event}](${a.link})**`).join('\n') +
        `\n\n${forecast.summary}`
       embed.setDescription(desc)
     } else embed.setDescription(forecast.summary)
