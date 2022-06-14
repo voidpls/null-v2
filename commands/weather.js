@@ -86,7 +86,7 @@ async function weatherEmbed(forecast, channel, givenLoc) {
         // .setAuthor(forecast.resolvedLoc, 'https://darksky.net/images/darkskylogo.png')
         .setThumbnail(`https://voidpls.github.io/null/darksky/${forecast.icon}.png`)
         .setColor(COLOR)
-        .setFooter(`Local Time • ${forecast.localTime}`)
+        .setFooter(`Local Time • ${forecast.localTime}\nPowered by Visual Crossing • visualcrossing.com`)
         // .setFooter(`Powered by Dark Sky • ${forecast.localTime}`)
         .addField('Temperature', `**${forecast.temps.f.temp}**°F/**${forecast.temps.c.temp}**°C`, true)
         .addField(
