@@ -136,11 +136,11 @@ exports.run = async (bot, msg, args, prefix) => {
         if (!userloc) {
             const weather = new Weather({
                 userID: msg.author.id,
-                location: forecast.resolvedLoc
+                location: newloc
             })
             weather.save().catch(e => console.log(e))
         } else {
-            userloc.update({ location: forecast.resolvedLoc }).catch(e => console.log(e))
+            userloc.update({ location: newloc }).catch(e => console.log(e))
         }
         return msg.channel.send(`Your location has been set to: \`${forecast.resolvedLoc}\``)
     }
