@@ -82,7 +82,8 @@ function toC(f) {
 async function weatherEmbed(forecast, channel, givenLoc) {
   if (!forecast) return channel.send(`**Error:** Failed to retreive weather data for \`${givenLoc}\`. Invalid location?`)
     const embed = new MessageEmbed()
-        .setAuthor(forecast.resolvedLoc, 'https://darksky.net/images/darkskylogo.png')
+        .setTitle(forecast.resolvedLoc)
+        // .setAuthor(forecast.resolvedLoc, 'https://darksky.net/images/darkskylogo.png')
         .setThumbnail(`https://voidpls.github.io/null/darksky/${forecast.icon}.png`)
         .setColor(COLOR)
         .setFooter(`Local Time • ${forecast.localTime}`)
