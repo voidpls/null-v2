@@ -131,7 +131,7 @@ exports.run = async (bot, msg, args, prefix) => {
             .catch(e => console.log(e))
         const newloc = args.slice(1).join(' ')
         const forecast = await getForecast(newloc)
-        if (!forecast) return msg.channel.send(`**Error:** Failed to retreive weather data for \`${newloc.join(' ')}\`. Invalid location?`)
+        if (!forecast) return msg.channel.send(`**Error:** Failed to retreive weather data for \`${newloc}\`. Invalid location?`)
         // const coords = await geocode(newloc.join(' '))
         // if (!coords || !coords.formatted) return msg.channel.send(`**Error:** Could not find \`${newloc.join(' ')}\``)
         if (!userloc) {
